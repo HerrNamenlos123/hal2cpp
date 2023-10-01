@@ -1,0 +1,82 @@
+component hal2cpp;
+
+pin in bit in_virtual_estop;
+pin in float in_enable;
+pin in float in_cmd_pos_x;
+pin in float in_cmd_pos_y;
+pin in float in_cmd_pos_z;
+
+pin out bit out_hardware_estop;
+pin out float out_act_pos_x;
+pin out float out_act_pos_y;
+pin out float out_act_pos_z;
+
+option extra_setup yes;
+option extra_cleanup yes;
+
+function _;
+license "MIT";
+;;
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <dlfcn.h>
+#include "hal2cpp.h"
+
+int (*hal2cpp_setup)();
+void (*hal2cpp_loop)(struct Data* data);
+void (*hal2cpp_exit)();
+
+struct Data data;
+
+EXTRA_SETUP() {
+    void* libHandle = dlopen("/usr/lib/linuxcnc/hal2cpp/libhal2cpp.so", RTLD_NOW);
+    if (!libHandle) {
+        fprintf(stderr, "Error: %s\n", dlerror());
+        return -1;
+    }
+
+    hal2cpp_setup = dlsym(libHandle, "hal2cpp_setup");
+    if (!hal2cpp_setup) {
+        fprintf(stderr, "Error: %s\n", dlerror());
+        dlclose(libHandle);
+        return -1;
+    }
+
+    hal2cpp_loop = dlsym(libHandle, "hal2cpp_loop");
+    if (!hal2cpp_loop) {
+        fprintf(stderr, "Error: %s\n", dlerror());
+        dlclose(libHandle);
+        return -1;
+    }
+
+    hal2cpp_exit = dlsym(libHandle, "hal2cpp_exit");
+    if (!hal2cpp_exit) {
+        fprintf(stderr, "Error: %s\n", dlerror());
+        dlclose(libHandle);
+        return -1;
+    }
+
+    return hal2cpp_setup();
+}
+
+FUNCTION(_) {
+    memset(&data, 0, sizeof(data));
+
+    data.in.virtual_estop = in_virtual_estop;
+    data.in.cmd_pos.x = in_cmd_pos_x;
+    data.in.cmd_pos.y = in_cmd_pos_y;
+    data.in.cmd_pos.z = in_cmd_pos_z;
+    data.in.enable = in_enable;
+
+    hal2cpp_loop(&data);
+
+    out_hardware_estop = data.out.hardware_estop;
+    out_act_pos_x = data.out.act_pos.x;
+    out_act_pos_y = data.out.act_pos.y;
+    out_act_pos_z = data.out.act_pos.z;
+}
+
+EXTRA_CLEANUP() {
+    hal2cpp_exit();
+}
