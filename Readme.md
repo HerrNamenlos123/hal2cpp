@@ -13,9 +13,7 @@ Hal2cpp can be used to get high-level C++ access to LinuxCNC's data and then you
 Example:  
 You can retrieve the commanded positions for all axes and send them to an Arduino through a network in real time, that controls motors using custom PID controllers. Or you can send them to a non-realtime simulation. Or you pipe the positions straight back into LinuxCNC and you simulate a perfect machine. 
 
-It allows you to use LinuxCNC's capabilities as a 5-axis CNC controller for any of your projects that need trajectory generation.
-
-All of this is capable of realtime processing. It will stay that as long as you don't do anything weird. Involving other processes or networks or any other computers might introduce Jitter issues and it is your responsibility to keep the system realtime capable. But by default, it is.
+It allows you to use LinuxCNC's capabilities as a CNC motion controller for any of your projects that need cartesian motion control.
 
 ### Why do we need this?
 
