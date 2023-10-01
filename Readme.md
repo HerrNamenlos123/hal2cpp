@@ -45,6 +45,12 @@ Also, try to avoid multithreading. Only use other threads for non-realtime secon
 
 Similarly, if possible, try not to use exceptions. They are not supported by the C-based LinuxCNC backend and will cause undefined behavior.
 
+### Hal2Arduino
+
+A similar project called Hal2Arduino already exists, but it is no longer maintained, does not work out of the box, is non-realtime capable as it is written in Python, and sends data to an Arduino via USB Serial (which, again, is not realtime capable).
+
+Hal2cpp tries to fix all of this, while staying realtime capable, and also allowing you to write your Arduino interface yourself. It should not just be used for Arduinos, but for anything that needs cartesian motion control.
+
 # Usage
 
 Here are the steps to use Hal2cpp on a new computer:
