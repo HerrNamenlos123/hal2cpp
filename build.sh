@@ -11,6 +11,13 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
+if ! command -v cmake &> /dev/null; then
+  echo "CMake is not installed. Please install CMake using 'sudo apt update && sudo apt install -y cmake'"
+  exit 1
+fi
+
+exit
+
 mkdir -p cmake-build
 cmake -S . -B cmake-build -DHAL2CPP_MAIN_CONFIG_HAL_FILE="$1"
 cmake --build cmake-build
