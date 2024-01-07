@@ -16,8 +16,6 @@ if ! command -v cmake &> /dev/null; then
   exit 1
 fi
 
-exit
-
 mkdir -p cmake-build
 cmake -S . -B cmake-build -DHAL2CPP_MAIN_CONFIG_HAL_FILE="$1"
 cmake --build cmake-build

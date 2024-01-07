@@ -30,6 +30,12 @@ add_custom_target(hal2cpp_generate
 )
 add_dependencies(hal2cpp hal2cpp_generate)
 
+set(SOCKPP_BUILD_SHARED OFF CACHE BOOL "Build sockpp as a shared library" FORCE)
+set(SOCKPP_BUILD_STATIC ON CACHE BOOL "Build sockpp as a shared library" FORCE)
+add_subdirectory(sockpp)
+add_library(sockpp::sockpp ALIAS sockpp-static)
+target_link_libraries(hal2cpp PRIVATE sockpp::sockpp)
+
 # =====================================================
 #      C-based HAL driver loading the C++ library
 # =====================================================

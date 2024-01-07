@@ -29,8 +29,6 @@ The HAL driver is written in C and only does the minimum of dynamically loading 
 
 The shared library, on the other hand, is built using a proper CMake build system and modern C++17 standard. That means you can achieve anything much faster as there are also a lot more libraries available. Want to stream the commanded X position to a microcontroller using UDP? Simply download a CMake-compatible networking library for C++ and write around 3 to 5 lines of code. Doing the same thing in C without a proper build system would be a major pain. This is why the C++ shared library exists.
 
-If you need a library for UDP sockets, I recommend https://github.com/fpagliughi/sockpp.
-
 See below for info on how the HAL file is generated.
 
 ### Realtime concerns
@@ -75,6 +73,10 @@ Here are the steps to use Hal2cpp on a new computer:
 # HAL file generation
 
 The main HAL file is automatically generated using python. This is because it is easier to make changes without breaking existing things. When you need additional signals from LinuxCNC, modify the `config.json` file and re-run the build system. Your change should now be visible in the HAL file.
+
+# Socket library
+
+The sockpp socket library at https://github.com/fpagliughi/sockpp is already part of this library and is already linked. You can start using it right away.
 
 # License
 
