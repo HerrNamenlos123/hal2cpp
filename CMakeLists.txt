@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
+project(hal2cpp VERSION 0.1.1 LANGUAGES C CXX)
 
 if (NOT DEFINED HAL2CPP_MAIN_CONFIG_HAL_FILE)
     message(FATAL_ERROR "HAL2CPP_MAIN_CONFIG_HAL_FILE is not defined. Please use -DHAL2CPP_MAIN_CONFIG_HAL_FILE=... to set it to the <configname>.hal file of your LinuxCNC StepConf configuration.")
