@@ -1,6 +1,9 @@
 
 #include "hal2cpp.h"
+#include <cmath>
 #include <chrono>
+#include <iostream>
+#include <ostream>
 
 uint64_t micros() {
     static auto start = std::chrono::high_resolution_clock::now();
@@ -25,7 +28,6 @@ extern "C" {
         auto s = sizeof(Data);
         auto elapsed = micros() - start;
 
-        data->out.act_pos.x = s;
     }
 
     void hal2cpp_exit() {
