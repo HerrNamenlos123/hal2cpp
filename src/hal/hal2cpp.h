@@ -2,7 +2,7 @@
 #ifndef HAL2CPP_H
 #define HAL2CPP_H
 
-// This file must compile in C++ and plain C, 
+// This file must compile in C++ and plain C,
 // hence no C++ features in this file.
 
 // For performance reasons, we do not do proper serialization here.
@@ -16,31 +16,38 @@
 extern "C" {
 #endif
 
-    struct Vec5 {
-        float x;
-        float y;
-        float z;
-        float a;
-        float b;
-    } __attribute__((packed));
+struct Vec5 {
+  float x;
+  float y;
+  float z;
+  float a;
+  float b;
+} __attribute__((packed));
 
-    struct DataIn {
-        bool virtual_estop;
-        bool enable;
-        struct Vec5 cmd_pos; 
-        struct Vec5 cmd_vel;
-    } __attribute__((packed));
+struct DataIn {
+  bool virtual_estop;
+  bool enable;
+  struct Vec5 cmd_pos;
+  struct Vec5 cmd_vel;
+} __attribute__((packed));
 
-    struct DataOut {
-        bool hardware_estop;
-        struct Vec5 act_pos; 
-        struct Vec5 act_vel; 
-    } __attribute__((packed));
+struct DataOut {
+  bool hardware_estop;
+  struct Vec5 act_pos;
+  struct Vec5 act_vel;
+} __attribute__((packed));
 
-    struct Data {
-        struct DataIn in;
-        struct DataOut out;
-    } __attribute__((packed));
+struct Data {
+  struct DataIn in;
+  struct DataOut out;
+
+  float in_x_pwmgen_value;
+  bool in_x_pwmgen_enable;
+  bool out_x_encoder_index_enable;
+  float out_x_encoder_raw;
+  float out_x_encoder_pos;
+  float out_x_encoder_vel;
+} __attribute__((packed));
 
 #ifdef __cplusplus
 }

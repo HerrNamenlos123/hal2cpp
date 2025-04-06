@@ -6,6 +6,13 @@ pin in float in_cmd_pos_x;
 pin in float in_cmd_pos_y;
 pin in float in_cmd_pos_z;
 
+pin in float x_pwmgen_value;
+pin in bit x_pwmgen_enable;
+pin out bit x_encoder_index_enable;
+pin out float x_encoder_raw;
+pin out float x_encoder_pos;
+pin out float x_encoder_vel;
+
 pin out bit out_hardware_estop;
 pin out float out_act_pos_x;
 pin out float out_act_pos_y;
@@ -73,12 +80,20 @@ FUNCTION(_)
   data.in.cmd_pos.z = in_cmd_pos_z;
   data.in.enable = in_enable;
 
+  data.in_x_pwmgen_value = x_pwmgen_value;
+  data.in_x_pwmgen_enable = x_pwmgen_enable;
+
   hal2cpp_loop(&data);
 
   out_hardware_estop = data.out.hardware_estop;
   out_act_pos_x = data.out.act_pos.x;
   out_act_pos_y = data.out.act_pos.y;
   out_act_pos_z = data.out.act_pos.z;
+
+  x_encoder_index_enable = data.out_x_encoder_index_enable;
+  x_encoder_raw = data.out_x_encoder_raw;
+  x_encoder_pos = data.out_x_encoder_pos;
+  x_encoder_vel = data.out_x_encoder_vel;
 }
 
 EXTRA_CLEANUP() { hal2cpp_exit(); }

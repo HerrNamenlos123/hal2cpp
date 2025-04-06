@@ -14,14 +14,16 @@ endif ()
 # =============================
 
 add_library(hal2cpp SHARED)
-target_compile_features(hal2cpp PUBLIC cxx_std_17)
+target_compile_features(hal2cpp PUBLIC cxx_std_20)
 set_target_properties(hal2cpp PROPERTIES CXX_EXTENSIONS OFF)
 
 target_include_directories(hal2cpp PUBLIC "src")
 
 target_sources(hal2cpp PRIVATE 
     src/hal2cpp.cpp
+    src/TinyStd_impl.cpp
 )
+target_link_options(hal2cpp PRIVATE -Wl,--no-undefined)
 
 # add_custom_target(hal2cpp_generate
 #     COMMAND python3 generate.py ${HAL2CPP_MAIN_CONFIG_HAL_FILE}
@@ -31,7 +33,7 @@ target_sources(hal2cpp PRIVATE
 # add_dependencies(hal2cpp hal2cpp_generate)
 
 find_package(sockpp REQUIRED)
-target_link_libraries(hal2cpp PRIVATE Sockpp::sockpp)
+target_link_libraries(hal2cpp PRIVATE Sockpp::sockpp-static)
 
 # =====================================================
 #      C-based HAL driver loading the C++ library

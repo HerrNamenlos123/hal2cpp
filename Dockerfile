@@ -11,7 +11,7 @@ RUN apt install -y linuxcnc-uspace-dev
 
 WORKDIR /tmp/sockpp
 RUN git clone https://github.com/fpagliughi/sockpp .
-RUN cmake . -B build
+RUN cmake . -B build -DSOCKPP_BUILD_STATIC=TRUE SOCKPP_BUILD_SHARED=FALSE -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 RUN cmake --build build --target=install
 
 WORKDIR /app
@@ -19,8 +19,6 @@ RUN mkdir -p build
 
 COPY ./configs ./configs
 COPY ./CMakeLists.txt ./CMakeLists.txt
-COPY ./generate.py ./generate.py
-COPY ./config.json ./config.json
 COPY ./src ./src
 
 RUN cmake -S . -B build -DHAL2CPP_MAIN_CONFIG_HAL_FILE="/app/configs/hal2cpp-config/hal2cpp-config.hal" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
