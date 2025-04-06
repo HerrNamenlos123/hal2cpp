@@ -2,6 +2,6 @@
 set -e
 
 mkdir -p ./linuxcnc
-python3 generate.py configs/hal2cpp-config/hal2cpp-config.hal
+# python3 generate.py configs/hal2cpp-config/hal2cpp-config.hal
 
 START_CMD=linuxcnc CONFIG_FILE=/app/configs/hal2cpp-config/hal2cpp-config.ini docker compose up --build

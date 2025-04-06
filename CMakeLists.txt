@@ -23,12 +23,12 @@ target_sources(hal2cpp PRIVATE
     src/hal2cpp.cpp
 )
 
-add_custom_target(hal2cpp_generate
-    COMMAND python3 generate.py ${HAL2CPP_MAIN_CONFIG_HAL_FILE}
-    COMMENT "Generating HAL file"
-    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
-)
-add_dependencies(hal2cpp hal2cpp_generate)
+# add_custom_target(hal2cpp_generate
+#     COMMAND python3 generate.py ${HAL2CPP_MAIN_CONFIG_HAL_FILE}
+#     COMMENT "Generating HAL file"
+#     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
+# )
+# add_dependencies(hal2cpp hal2cpp_generate)
 
 find_package(sockpp REQUIRED)
 target_link_libraries(hal2cpp PRIVATE Sockpp::sockpp)
