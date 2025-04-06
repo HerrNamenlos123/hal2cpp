@@ -1,0 +1,15 @@
+services:
+  linuxcnc:
+    build: .
+    network_mode: host
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - RTAPI_UID=1000         # or your actual UID
+      - HOME=/linuxcnc
+    user: "${UID}:${GID}" 
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./linuxcnc:/linuxcnc:rw
+    stdin_open: true
+    tty: true
