@@ -13,5 +13,6 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./linuxcnc:/linuxcnc:rw
+      - ./configs:/linuxcnc-configs:rw
     stdin_open: true
     tty: true

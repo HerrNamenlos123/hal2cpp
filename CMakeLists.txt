@@ -1,21 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(hal2cpp VERSION 0.1.1 LANGUAGES C CXX)
 
-include(FetchContent)
-
-message(STATUS "Fetching sockpp library ...")
-FetchContent_Declare(
-  sockpp
-  GIT_REPOSITORY https://github.com/fpagliughi/sockpp.git
-  GIT_TAG v1.0.0
-)
-FetchContent_MakeAvailable(sockpp)
-message(STATUS "Fetching sockpp library ... Done")
-
-if (ONLY_FETCH_SOCKPP)
-return()
-endif()
-
 if (NOT DEFINED HAL2CPP_MAIN_CONFIG_HAL_FILE)
     message(FATAL_ERROR "HAL2CPP_MAIN_CONFIG_HAL_FILE is not defined. Please use -DHAL2CPP_MAIN_CONFIG_HAL_FILE=... to set it to the <configname>.hal file of your LinuxCNC StepConf configuration.")
 endif ()
@@ -45,11 +30,8 @@ add_custom_target(hal2cpp_generate
 )
 add_dependencies(hal2cpp hal2cpp_generate)
 
-set(SOCKPP_BUILD_SHARED OFF CACHE BOOL "Build sockpp as a shared library" FORCE)
-set(SOCKPP_BUILD_STATIC ON CACHE BOOL "Build sockpp as a shared library" FORCE)
-
-add_library(sockpp::sockpp ALIAS sockpp-static)
-target_link_libraries(hal2cpp PRIVATE sockpp::sockpp)
+find_package(sockpp REQUIRED)
+target_link_libraries(hal2cpp PRIVATE Sockpp::sockpp)
 
 # =====================================================
 #      C-based HAL driver loading the C++ library
@@ -68,6 +50,7 @@ add_custom_target(hal2cpp_hal
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
 )
 else()
+message(halcompile --install src/hal/hal2cpp.comp)
 add_custom_target(hal2cpp_hal
     COMMAND halcompile --install src/hal/hal2cpp.comp
     COMMENT "Building HAL driver"

@@ -16,8 +16,9 @@ option extra_cleanup yes;
 
 function _;
 license "MIT";
-;
-;
+// clang-format off
+;;
+// clang-format on
 
 #include "hal2cpp.h"
 #include <dlfcn.h>
