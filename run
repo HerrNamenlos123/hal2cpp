@@ -1,5 +1,6 @@
 #!/bin/bash
+set -e
 
-mkdir ./linuxcnc
+mkdir -p ./linuxcnc
 
-docker compose up --build
+START_CMD=linuxcnc CONFIG_FILE=/app/configs/hal2cpp-config/hal2cpp-config.ini docker compose up --build

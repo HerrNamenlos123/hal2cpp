@@ -5,8 +5,10 @@ services:
     privileged: true
     environment:
       - DISPLAY=${DISPLAY}
-      - RTAPI_UID=1000         # or your actual UID
+      - RTAPI_UID=1000
       - HOME=/linuxcnc
+      - START_CMD=$START_CMD
+      - CONFIG_FILE=$CONFIG_FILE
     user: "${UID}:${GID}" 
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
