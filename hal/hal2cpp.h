@@ -6,9 +6,11 @@
 // hence no C++ features in this file.
 
 // For performance reasons, we do not do proper serialization here.
-// The entire class is serialized via a memory dump.
+// The entire class is "serialized" via a memory dump.
 // This will only work if both the LinuxCNC PC and the receiver share their endianness.
 // All Arduinos and Intel-based x86 CPUs are little endian.
+
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
